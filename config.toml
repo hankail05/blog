@@ -1,0 +1,46 @@
+baseURL = "https://hankail05.github.io"
+languageCode = "kr-ko"
+title = "어둠의 개발자 비밀결사 띵킹지부"
+theme = "Mainroad"
+paginate = 10
+
+[Params]
+ subtitle = "CS, NS, emacs"
+ copyright = "hankail05"
+ opengraph = false
+ twitter_cards = false
+ readmore = true
+ authorbox = false
+ toc = true
+ post_navagation = true
+ post_meta = ["date", "categories", "translations"]
+ mainSections = ["post", "blog", "news"]
+ mathjax = true
+ mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/sre/sre_browser.min.js"
+ mathjaxConfig = "TeX-AMS-MML_HTMLorMML"
+ highlightColor = "#cfd8fb"
+
+[Params.sidebar]
+ home = "right"
+ list = "left"
+ single = false
+ widgets = ["recent", "categories", "social", "taglist"]
+
+[Params.widgets]
+ recent_num = 5
+ tags_counter = false
+
+[Params.widgets.social]
+#facebook = "username"
+#twitter = "username"
+#instagram = "username"
+#linkedin = "username"
+#telegram = "username"
+ github = "hankail05"
+#gitlab = "username"
+#bitbucket = "username"
+ email = "hankail0582@gmail.com"
+
+[[Params.widgets.social.custom]]
+ title = "어둠의 개발자 비밀결사"
+ url = ""
