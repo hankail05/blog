@@ -1,20 +1,23 @@
 baseURL = "https://hankail05.github.io"
 languageCode = "kr-ko"
-title = "어둠의 개발자 비밀결사 띵킹지부"
+title = "CS, NS, emacs"
 theme = "Mainroad"
 paginate = 10
+disqusShortname = "hankail05"
+googleAnalytics = "UA-164655053-1"
 
 [Params]
- subtitle = "CS, NS, emacs"
  copyright = "hankail05"
- opengraph = false
+ comments = true
+ opengraph = true
  twitter_cards = false
  readmore = true
  authorbox = false
- toc = true
+ toc = false
  post_navagation = true
- post_meta = ["date", "categories", "translations"]
- mainSections = ["post", "blog", "news"]
+ post_meta = ["date"]
+ mainSections = ["post"]
+ dateformat = "2006-01-02"
  mathjax = true
  mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/sre/sre_browser.min.js"
  mathjaxConfig = "TeX-AMS-MML_HTMLorMML"
@@ -22,13 +25,13 @@ paginate = 10
 
 [Params.sidebar]
  home = "right"
- list = "left"
- single = false
+ list = "right"
+ single = "right"
  widgets = ["recent", "categories", "social", "taglist"]
 
 [Params.widgets]
  recent_num = 5
- tags_counter = false
+ tags_counter = true
 
 [Params.widgets.social]
 #facebook = "username"
@@ -36,11 +39,7 @@ paginate = 10
 #instagram = "username"
 #linkedin = "username"
 #telegram = "username"
- github = "hankail05"
+#github = "hankail05"
 #gitlab = "username"
 #bitbucket = "username"
- email = "hankail0582@gmail.com"
-
-[[Params.widgets.social.custom]]
- title = "어둠의 개발자 비밀결사"
- url = ""
+#email = "hankail0582@gmail.com"
