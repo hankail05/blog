@@ -10,7 +10,7 @@ thumbnail = "/images/real-programmers-use-emacs.png"
 
 <!--more-->
 
-이맥스는 좋은 에디터이긴 하지만, 그렇다고 순정 이맥스가 좋지다는 의미는 아니다. 키맵이 의미 기준으로 배열되어 있고 조합키 사용 빈도가 너무 높아 자주 쓰면 손목이 아프다. 빔이나 vscode가 순정으로도 쓸 만한 것돠는 대조된다. 물론 우리는 순정 상태의 기능을 최대한 쓰지 않을 것이다. 쓴다 하더라도 좀 더 누르기 편한 방식으로 조정할 것이다. 이 장에서 설명할 것들은 어떻게든 이맥스를 편하게 쓰려고 몸을 비튼 결과들이다.
+이맥스는 좋은 에디터이긴 하지만, 그렇다고 순정 이맥스가 좋다는 의미는 아니다. 키맵이 의미 기준으로 배열되어 있고 조합키 사용 빈도가 너무 높아 자주 쓰면 손목이 아프다. 빔이나 vscode가 순정으로도 쓸 만한 것돠는 대조된다. 물론 우리는 순정 상태의 기능을 최대한 쓰지 않을 것이다. 쓴다 하더라도 좀 더 누르기 편한 방식으로 조정할 것이다. 이 장에서 설명할 것들은 어떻게든 이맥스를 편하게 쓰려고 몸을 비튼 결과들이다.
 
 
 ## evil {#evil}
@@ -19,7 +19,7 @@ thumbnail = "/images/real-programmers-use-emacs.png"
 
 이 가이드에서 깔 패키지는 evil과 [evil-leader](<https://github.com/cofi/evil-leader>)이다. evil-leader는 리더키라는 하나의 키를 만들어 그 키를 기반으로 한 키맵을 찍어낼 수 있도록 해주는 빔 플러그인 포팅 패키지로, 최소한으로 키맵을 수정하면서 내가 원하는 키맵을 구축할 수 있다. 기존에 있는 키맵을 갈아엎어도 좋지만, 그렇게 되면 이맥스 레퍼런스(이맥스 키맵 수정 시) 또는 순정 빔(evil 키맵 수정 시)과 차이가 심해지기 때문에 본인은 리더키로 커스텀 키맵을 제작하는 편이다.
 
-`M-x package-install evil` 과 `M-x pakcage-install evil-leader` 로 두 패키지를 설치한 뒤, 다음 코드를 `init.el` 에 작성한다.
+`M-x package-install RET evil RET` 과 `M-x pakcage-install RET evil-leader RET` 으로 두 패키지를 설치한 뒤, 다음 코드를 `init.el` 에 작성한다.
 
 ```emacs-lisp
 (require 'evil)
@@ -73,7 +73,7 @@ ivy를 설치하면 패키지가 두 개 같이 온다. counsel과 swiper가 그
 
 `M-x` 에서 히스토리 기반 정렬을 해주는 패키지 이다. 자주 쓰는 길고 긴 함수를 매번 입력할 필요 없이 목록을 조금씩 움직이면 바로 실행할 수 있기 때문에 정말 편하다. ivy를 설치했다면 별도의 설정 없이 설치만으로 적용된다.
 
-`M-x package-install smex` 로 설치한 뒤 `init.el` 에 다음을 작성한다.
+`M-x package-install RET smex RET` 로 설치한 뒤 `init.el` 에 다음을 작성한다.
 
 ```emacs-lisp
 (require 'smex)
