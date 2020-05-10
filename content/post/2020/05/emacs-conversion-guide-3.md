@@ -49,7 +49,7 @@ lsp-mode에서는 기본 키맵을 지원한다. 다른 패키지들도 키뱁�
 
 ```emacs-lisp
 (evil-leader/set-key
-  "l" lsp-command-map)
+  "l" 'lsp-command-map)
 ```
 
 위 코드를 eval하면 이제 prefix로 `S-l` 대신 `SPC l` 를 입력할 수 있다. 이렇게 키맵을 하나씩 지정하는 것 말고도 기존 키맵을 다른 단축키에 박아버리는 방법도 존재한다.
@@ -108,7 +108,7 @@ company와 flycheck 백엔드는 LSP만 있는 것이 아니다. LSP에는 없�
 (add-hook 'python-mode-hook '(lambda ()
                                (unless (eq buffer-file-name nil)
                                  (setq-local venv-location (directory-file-name buffer-file-name)))))
-(add-hook 'python-mode-hook auto-virtualenvwrapper-activate)
+(add-hook 'python-mode-hook 'auto-virtualenvwrapper-activate)
 ```
 
 로 설정하면 파이썬 파일을 열었을 때 알아서 프로젝트 루트에 있는 `venv` 디렉토리를 찾아 가상완경을 활성화한다.

@@ -61,7 +61,7 @@ ivy를 설치하면 패키지가 두 개 같이 온다. counsel과 swiper가 그
 (define-key ivy-switch-buffer-map "C-k" 'ivy-previous-line)
 (define-key ivy-minibuffer-map "C-j" 'ivy-next-line)
 (define-key ivy-minibuffer-map "C-k" 'ivy-previous-line)
-(global-set-key "M-x" 'counsel-M-x)
+(global-set-key (kbd "M-x") 'counsel-M-x)
 
 (define-key evil-normal-state-map "C-s" 'swiper)
 ```
