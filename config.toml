@@ -1,37 +1,40 @@
 baseURL = "https://hankail05.github.io"
 languageCode = "kr-ko"
-title = "CS, NS, emacs"
+title = "가지 않은 길"
 theme = "Mainroad"
 paginate = 10
-disqusShortname = "hankail05"
+disqusShortname = "hankail05-github-io"
 googleAnalytics = "UA-164655053-1"
 
 [Params]
- copyright = "hankail05"
- comments = true
- opengraph = true
- twitter_cards = false
- readmore = true
- authorbox = false
- toc = false
- post_navagation = true
- post_meta = ["date"]
- mainSections = ["post"]
- dateformat = "2006-01-02"
- mathjax = true
- mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/sre/sre_browser.min.js"
- mathjaxConfig = "TeX-AMS-MML_HTMLorMML"
- highlightColor = "#cfd8fb"
+subtitle = "진귀한 글을 적기 위해 노력함"
+description = "진귀한 글을 적기 위해 노력함"
+images = ["images/main.png"]
+copyright = "hankail05"
+comments = true
+opengraph = true
+twitter_cards = false
+readmore = true
+authorbox = false
+toc = false
+post_navagation = true
+post_meta = ["date"]
+mainSections = ["post"]
+dateformat = "2006-01-02"
+mathjax = true
+mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/sre/sre_browser.min.js"
+mathjaxConfig = "TeX-AMS-MML_HTMLorMML"
+highlightColor = "#cfd8fb"
 
 [Params.sidebar]
- home = "right"
- list = "right"
- single = "right"
- widgets = ["recent", "categories", "social", "taglist"]
+home = "right"
+list = "right"
+single = "right"
+widgets = ["recent", "categories", "social", "taglist"]
 
 [Params.widgets]
- recent_num = 5
- tags_counter = true
+recent_num = 5
+tags_counter = true
 
 [Params.widgets.social]
 #facebook = "username"
@@ -43,3 +46,11 @@ googleAnalytics = "UA-164655053-1"
 #gitlab = "username"
 #bitbucket = "username"
 #email = "hankail0582@gmail.com"
+
+[outputs]
+home = ["HTML", "RSS"]
+enableRobotsTXT = true
+
+[sitemap]
+changefreq = "weekly"
+filename = "sitemap.xml"
