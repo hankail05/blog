@@ -5,6 +5,7 @@ theme = "Mainroad"
 paginate = 10
 disqusShortname = "hankail05-github-io"
 googleAnalytics = "UA-164655053-1"
+canonifyURLs = true
 
 [Params]
 subtitle = "진귀한 글을 적기 위해 노력함"
