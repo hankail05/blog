@@ -1,0 +1,550 @@
+#+STARTUP: content logdone inlneimages
+
+#+HUGO_BASE_DIR: ../
+#+HUGO_AUTO_SET_LASTMOD: t
+
+* 05
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: post/2020/05
+:END:
+** DONE 이맥스 개종 가이드 1 - 설치 및 이맥스 기초                   :emacs:
+CLOSED: [2020-05-09 Sat 22:40]
+:PROPERTIES:
+:EXPORT_FILE_NAME: emacs-conversion-guide-1
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail "/images/real-programmers-use-emacs.png"
+:END:
+
+본 가이드는 프로그래밍 갤러리의 [이맥스 개종 가이드](https://gall.dcinside.com/board/view/?id=programming&no=748120)를 계승한 글입니다.
+
+<!--more-->
+
+> 이맥스를 쓰지 말라는 것은 손발을 잘라버리겠다는 것과 같다. - 커헠, 개종 가이드 원작자
+
+*** 서문
+IDE 나 모던 에디터를 냅두고 왜 이맥스를 선택하냐는 물음은 항상 있어왔다. 처음부터 세팅되어있는 에디터들을 냅두고 굳이 낡은 에디터를 고집한다는 건 처음 듣기엔 그리 좋지 않은 생각이다. 그럼에도 불구하고 이맥스는 그 특유의 확장성 하나로 여러 에디터의 기능을 끌어다 쓰면서, 동시에 자신의 루틴에 최적화된 에디터를 만들어낼 수 있다는 장점으로 지금까지 살아남아왔다. 이 가이드는 입문자 여러분이 이맥스의 그 강력함을 몸소 느끼고 이맥스를 "자신의 손발"로 맞추는 데에 방향을 제시하기 위해 작성되었다.
+
+*** 설치
+이맥스는 평범하게 패키지(혹은 프로그램) 깔듯이 설치하면 된다. 본인의 패키지 매니저가 지원하는 방식으로 설치하자.
+#+begin_example
+데비안 계열이라면 apt install emacs
+아치 계열이라면 pacman -S emacs
+맥이라면 brew install emacs
+윈도우는 홈페이지 들어가서 설치 프로그램 다운 후 설치.
+#+end_example
+
+*** 초기 구동 및 단축키
+이제 이맥스를 켜면 아래와 같은 화면이 나올 것이다.
+[[/images/emacs-init.png]]
+
+본격적으로 설정을 시작하기 전에, 설정에 필요한 기초를 머리에 넣고 가자. 이맥스에서 키맵(단축키)을 지칭하는 방법은 조금 특이하다. =C-= 는 ctrl을, =M-= 는 meta(alt)를, =S-= 는 super(win, command)를 의미한다. 즉 =ctrl-x= 는 =C-x= 로 적는 것이 일반적이다. 또한 종종 =RET= 이라는 걸 볼 수 있는데 엔터 키이다.
+
+이맥스에서 기본적인 설정을 하는데에 필요한 키맵은 다음과 같다.
+#+begin_example
+C-x C-f  파일, 디렉토리 열기
+C-x C-s 저장
+C-x C-c 이맥스 종료
+M-x 입력한 명령어 실행
+#+end_example
+
+이 밖에도 이맥스에는 내장된 키맵은 매우 많고, 키맵에 등록되지 않은 명령어들은 더 많다. 이런 걸 언제 외우냐고? *안 외운다*. 순정 키맵을 그대로 쓰겠다는 사람은 미련하거나 외계인의 손을 가진 사람이라고 단언 할 수 있다. 서문에서 말했듯, 억지로 불편한 키맵에 적응하려 애쓰지 말고 자기가 원하는 대로 설정하면 된다. vim 키맵은 기본이고, 독자적인 모달 에디팅 키맵을 설정한 사람도 있다.
+
+*** 버퍼, 창
+이맥스에는 탭이 없고 대신 버퍼라는 개념이 있다. 버퍼는 우리가 상호작용하는 내용을 의미하며, 파일을 연다는 것은 곧 파일과 연결되는 버퍼를 연다는 것과 같다. 처음 버퍼 개념을 접할 때는 버퍼=파일이라고 생각하기 쉬운데, 이맥스의 버퍼는 파일 뿐만 아니라 로그 등 입출력이 되는 모든 것은 전부 버퍼이다. =M-x= 를 누르면 밑에서 깜빡거리는 것이 보일텐데, 이것도 버퍼의 한종류로, 미니버퍼라고 한다. 버퍼를 바꾸려면 =C-x b= 를 누른 뒤 버퍼 이름을 입력하고, 버퍼를 닫으려면 =C-x k= 를 누른 뒤 버퍼 이름을 입력하면 된다.
+
+창(window)은 이 버퍼가 들어가는 공간을 의미한다. 우리는 임의로 창을 만들 수 있으며, =C-x 2= 로 수직, =C-x 3= 으로 수평분할할 수 있고, 창을 닫을 때에는 =C-x 0= 을 누르면 된다. 창이 닫힌다고 해서 버퍼가 닫히는 것은 아니므로 안심해도 된다. 반대로 버퍼 하나를 창 여러개에 띄울 수 있다.
+
+[[/images/twin-buffers.png]]
+
+*** 설정 맛보기
+=C-x C-f= 를 치고 =~/.emacs.d/init.el= (윈도우는 =유저/.emacs.d=) 파일을 열어보자. 없다면 만들면 된다. 파일을 연 뒤에, 다음을 작성하고 저장하자.
+
+#+BEGIN_SRC emacs-lisp
+  (package-initialize)
+
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (package-refresh-contents)
+#+END_SRC
+
+이맥스는 emacs-lisp 이라는 리슾의 방언의 인터프리터 위에 텍스트 편집기가 올라가 있다고 생각하면 편하다. 이맥스가 실행될 때 방금 열거나 만든 =init.el= 파일을 읽고 거기에 적혀 있는 함수를 인터프리터에 로드해, 그 함수를 쓸 수 있게 만든다. 또한 이맥스가 실행 중일 때도 얼마든지 다른 파일이나 코드를 로드할 수 있으며, 이는 나중에 패키지 설치나 설정 테스트를 손 쉽게 하는 요소로 작용한다. 저장을 했으면 =M-x eval-buffer RET= 을 입력해보자. 이 명령어는 현재 포커싱 되어있는 버퍼의 코드를 읽어 인터프리터에 로드하는 함수이다. 성공했다면 아무것도 뜨지 않을 것이다.
+
+리슢코드는 함수와 인자를 괄호 안에 같이 넣는다. 이때 괄호 안 첫번째는 함수, 나머지들은 인자이다. emacs-lisp은 함수형 언어인 리슾과는 다르게 변수 선언과 할당을 지원하므로 괄호의 위치에만 적응하면 C나 파이썬 코드를 작성하듯이 작성할 수 있다.
+
+방금 입력한 코드는 이맥스 패키지 매니저의 저장소를 추가하는 코드이다. 다른 곳에서 플러그인이라고 부르는 걸 이맥스에서는 패키지라고 부르며, 이 코드 덩어리들을 다운로드해서 인터프리터에 로드하는 것으로 패키지들을 사용할 수 있다. 다운로드한 패키지는 =.emacs.d/elpa= 폴더에 들어가고, 이맥스가 시작할 때 여기 들어있는 패키지들을 읽어 실행할 수 있는 상태로 만든다. 참고로, 다른 가이드에서 =melpa-stable= 이나 =marmalade= 를 등록하라는 경우도 있는데, [melpa-stable은 가급적이면 쓰면 안되고](https://www.reddit.com/r/emacs/comments/etikbz/speaking_as_a_package_maintainer_please_do_not/), marmalade 는 너무 오래되었다. 현 시점에서 가장 활발한 저장소는 [melpa](https://melpa.org/)이므로 가급적이면 melpa에서 다운로드 받는 것이 좋다.
+
+이제 시범삼아 패키지를 다운로드해보자. 방금 =M-x eval-buffer= 에서 보았듯, 이맥스의 내장 탐색기는 기본적으로 목록을 띄워주지 않는다. 탭을 누르면 자동완성 목록을 띄워주긴 하지만, 뭔가 시원찮다. 좀 더 익숙한 형태로 바꾸기 위해 패키지를 설치해보자.
+
+이맥스 탐색 패키지는 [ivy](https://github.com/abo-abo/swiper)와 [helm](https://github.com/emacs-helm/helm)이 양대산맥을 이루고 있다. 이중 이 가이드에서는 ivy를 설치할 것이다. =M-x package-install RET= 을 친 뒤 ivy를 쳐서 패키지를 다운 받는다. 다운로드 후 =M-x ivy-mode RET= 를 입력해 ivy를 실행할 수 있다. 이맥스를 켤 때 마다 실행시키고 싶다면 =init.el= 에 =(require 'ivy) (ivy-mode 1)= 를 입력하면 된다. 물론 방금 파일에 적은 코드도 굳이 이맥스를 재실행하지 않고 로드할 수 있다. 상기 코드를 드래그 한 뒤 =M-x eval-region= 을 입력하면 드래그한 코드만 읽어서 로드할 수 있다.
+
+[[/images/ivy.png]]
+
+다시 =M-x= 를 쳐보면 위와 유사하게 나오는 것을 볼 수 있다.
+
+
+상술했듯 이맥스는 결국 거대한 리슾 인터프리터이기 때문에 모든 기능이 전부 리슾코드고 M-x로 실행한 것도 결국 리슾코드다. 상기 예시와 같이 파일에 설정 코드를 작성해나가면서 실행해볼 수 있기 때문에 repl에 대해 감을 잡아놔야 설정을 편하게 할 수 있다.
+
+
+** DONE 이맥스 개종 가이드 2 - 사람다운 이맥스 만들기                :emacs:
+CLOSED: [2020-05-10 Sun 15:38]
+:PROPERTIES:
+:EXPORT_FILE_NAME: emacs-conversion-guide-2
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail "/images/real-programmers-use-emacs.png"
+:END:
+
+순정 이맥스는 안 타는 쓰레기라서 그냥 쓰면 기대 수명이 짧아진다. 100세 시대를 이룩하기 위해 본격적으로 패키지를 깔고 설정하자.
+
+<!--more-->
+
+이맥스는 좋은 에디터이긴 하지만, 그렇다고 순정 이맥스가 좋다는 의미는 아니다. 키맵이 의미 기준으로 배열되어 있고 조합키 사용 빈도가 너무 높아 자주 쓰면 손목이 아프다. 빔이나 vscode가 순정으로도 쓸 만한 것돠는 대조된다. 물론 우리는 순정 상태의 기능을 최대한 쓰지 않을 것이다. 쓴다 하더라도 좀 더 누르기 편한 방식으로 조정할 것이다. 이 장에서 설명할 것들은 어떻게든 이맥스를 편하게 쓰려고 몸을 비튼 결과들이다.
+
+*** evil
+[evil](https://github.com/emacs-evil/evil) 은 vim의 그 키보드 레이아웃을 이맥스에 적용하는 패키지이다. 빔키맵은 워낙 유명해서 들어봤다 싶은 에디터에는 빔 키맵 플러그인이 다 있지만, 이맥스의 evil은 그중에서도 완성도가 높다. 하위 패키지로써 빔 플러그인을 포팅한 것들도 있을 정도다. 혹시 빔 키맵을 써보지 않았다면 이번 기회에 배워보는 걸 추천한다. =hjkl= 만 쓸 줄 알아도 손이 상당히 편해진다.
+
+이 가이드에서 깔 패키지는 evil과 [evil-leader](https://github.com/cofi/evil-leader)이다. evil-leader는 리더키라는 하나의 키를 만들어 그 키를 기반으로 한 키맵을 찍어낼 수 있도록 해주는 빔 플러그인 포팅 패키지로, 최소한으로 키맵을 수정하면서 내가 원하는 키맵을 구축할 수 있다. 기존에 있는 키맵을 갈아엎어도 좋지만, 그렇게 되면 이맥스 레퍼런스(이맥스 키맵 수정 시) 또는 순정 빔(evil 키맵 수정 시)과 차이가 심해지기 때문에 본인은 리더키로 커스텀 키맵을 제작하는 편이다.
+
+=M-x package-install RET evil RET= 과 =M-x pakcage-install RET evil-leader RET= 으로 두 패키지를 설치한 뒤, 다음 코드를 =init.el= 에 작성한다.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil)
+  (evil-mode 1)
+
+  (require 'evil-leader)
+  (global-evil-leader-mode t)
+  (evil-leader/set-leader "<SPC>")
+#+END_SRC
+
+=require= 는 패키지를 로드하는 함수이다. 앞으로 패키지를 로드하면 제일 먼저 작성해야하는 코드이니 별도로 적는다. 인자를 넣을 때 앞에 ='= 이 있어야하므로 유의하길 바란다.
+
+위와 같이 하면 빔 키맵과 리더키를 이맥스에서 쓸 수 있다. 리더키는 insert state[fn:1]를 제외한 나머지 state에 설정된다. 예시에서는 스페이스바를 리더키로 설정했지만, 본인이 원하는 키를 넣어도 상관없다.
+
+이제 리더키를 이용해 간단한 세팅을 해보자. 가령 =C-x C-f= 를 누르기 고통스러운 사람들은
+#+begin_src emacs-lisp
+  (evil-leader/set-key
+    "f" 'find-file)
+#+end_src
+
+을 =init.el= 에 입력하고 eval하면 =SPC f= 로 파일을 열 수 있다.
+
+*** ivy
+ivy를 설치하면 패키지가 두 개 같이 온다. counsel과 swiper가 그것들이다. counsel은 이맥스의 기본적인 명령어를 ivy식으로 대체하고, swiper는 찾기 명령어를 ivy식으로 대체한다. 이 셋에 약간의 설정을 해주는 것으로, 더 나은 사용 경험을 구축할 수 있다.
+
+=init.el= 에 다음 함수를 입력하고 eval하자.
+
+#+begin_src emacs-lisp
+  (require 'counsel)
+  (require 'swiper)
+  (setq ivy-wrap t
+        ivy-re-builders-alist '((t . ivy--regex-fuzzy))
+        ivy-use-selectable-prompt t)
+
+  (define-key ivy-switch-buffer-map "C-j" 'ivy-next-line)
+  (define-key ivy-switch-buffer-map "C-k" 'ivy-previous-line)
+  (define-key ivy-minibuffer-map "C-j" 'ivy-next-line)
+  (define-key ivy-minibuffer-map "C-k" 'ivy-previous-line)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+
+  (define-key evil-normal-state-map "C-s" 'swiper)
+#+end_src
+
+=setq= 는 그냥 변수 할당이다. 다만 위와 같이 여러 변수를 한꺼번에 할당할 수 있다. =define-key= 는 임의의 키에 함수를 할당한다. map은 다음 장에 설명한다.
+
+위 함수는 ivy의 검색목록이 끝에 다다렀을 때 맨 위로 올려주고, 퍼지검색을 하도록 만들며, 목록 만이 아니라 입력한 것도 선택하게 해준다. 목록을 위아래로 움직일 때 =C-j= , =C-k= 을 누르도록 키를 설정하며, 찾기 명령어 (=C-s=) 를 ivy 사양으로 작동하도록 만들어준다.
+
+*** smex
+=M-x= 에서 히스토리 기반 정렬을 해주는 패키지 이다. 자주 쓰는 길고 긴 함수를 매번 입력할 필요 없이 목록을 조금씩 움직이면 바로 실행할 수 있기 때문에 정말 편하다. ivy를 설치했다면 별도의 설정 없이 설치만으로 적용된다.
+
+=M-x package-install RET smex RET= 로 설치한 뒤 =init.el= 에 다음을 작성한다.
+
+#+begin_src emacs-lisp
+  (require 'smex)
+  (smex-initialize)
+#+end_src
+
+*** undo-tree
+
+이맥스에는 redo가 없다! 그래서 redo를 지원해주는 별도의 패키지를 설치해야한다. [undo-tree](https://elpa.gnu.org/packages/undo-tree.html)는 트리형식의 undo와 redo를 지원해, 우리가 흔히 아는 undo, redo는 물론이고, 브랜치를 옮기면서 여러 undo들을 redo할 수 있다.
+
+undo-tree는 evil을 설치할 때 같이 설치되므로 따로 설치할 필요가 없다.
+
+#+begin_src emacs-lisp
+  (require 'undo-tree)
+  (global-undo-tree-mode t)
+  (evil-leader/set-key
+    "u" 'undo-tree-visualize)
+#+end_src
+
+상기 코드를 작성하고 eval 하자. 이제 =SPC u= 로 현재 undo, redo 상태를 시각화할 수 있다.
+
+[[/images/undo-tree.png]]
+
+이 상태에서 =k= 로 undo, =j= 로 redo할 수 있으며, =h= 와 =l= 로 브랜치를 바꿔 undo, redo할 내용을 바꿀 수 있다.
+
+
+이렇게 하면 이맥스는 순정 폐기물에서 빔 정도의 쓸만한 에디터로 변모한다. 이 상태로 텍스트 파일을 편집하는 데에 큰 지장은 없지만, 이 글을 읽는 여러분의 목적은 이맥스로 코딩하기일 것이다. 다음 장에서는 파이썬을 예시 삼아 이맥스에서 코딩 환경을 세팅하는 방법을 설명할 것이다.
+
+
+** DONE 이맥스 개종 가이드 3 - 개발 환경 구축                        :emacs:
+CLOSED: [2020-05-10 Sun 21:42]
+:PROPERTIES:
+:EXPORT_FILE_NAME: emacs-conversion-guide-3
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail "/images/real-programmers-use-emacs.png"
+:END:
+
+이맥스는 마음만 먹으면 다채로운 기능을 가진 에디터로 만들 수 있다. 파이썬을 예시로 이맥스를 ide 비슷하게 개조해보자.
+
+<!--more-->
+
+이 장에서는 본격적으로 프로그래밍에 관련된 이야기를 할 것이다. 간단하게 파이썬 개발 환경을 구축하고 깃을 활용 하는 것을 예시로 들 것이다. 본인이 다른 언어를 주력으로 한다면 맨 밑에 나열된 패키지 목록을 참고해서 직접 설치해 보자.
+
+*** 모드
+전술했듯 이맥스의 모드는 빔의 그것과는 다르다. 이맥스의 모드는 =매이저 모드(major-mode)= 와 =마이너 모드(minor-mode)= 로 나뉜다. 메이저 모드는 현재 버퍼에서 어떤 편집 기능을 활성화할 지 결정한다. c 소스코드에서는 c 전용 기능을 활성화하는 매이저 모드가, 파이썬 소스코드에서는 파이썬 전용 기능을 활성화 하는 매이저 모드가 선택되는 식이다. 매이저 모드는 특별한 패키지가 없다면 버퍼 당 단 하나만 가질 수 있다. 마이너 모드는 매이저 모드 밑에서 활성화 되는 모드로, 어떤 것들은 버퍼 단위로, 어떤 것들은 전역에 활성화된다. 마이너 모드는 갯수 제한이 없고, 이 마이너 모드들을 매이저 모드와 엮어서 매이저 모드가 활성화될 때 같이 활성화되도록 만들 수 있다. 이러한 작업을 =hooking= 이라고 하며, 이맥스 개발 환경 구축의 핵심이다.
+
+[[/images/modes.png]]
+
+파이썬 파일을 열면 이렇게 괄호 안의 첫번째에 메이저 모드, 그 뒤로 마이너 모드가 표시된다. 보통 모드에는 테마, 키맵, 훅 등이 들어있다.
+
+내장된 파이썬 매이저모드만으로도 하이라이팅, repl, 커스텀 키맵 =(C-c)= , 문서화 등을 제공해 idle 정도로 써먹을 수는 있지만, 그래서는 ide를 참칭할 수가 없다. 개조하자.
+
+*** LSP
+LSP 는 Language Server Protocol의 약자로, 마이크로소프트가 개발한 프로토콜이다. 에디터에 구애받지 않는 별도의 서버를 실행하고 그 서버와 통신해 모든 에디터에서 일관적인 개발 환경을 제공받을 있도록 해준다. 따라서 vscode에서든, 빔에서든, 이맥스에서든 똑같은 자동완성, 린팅, 스코프 기반 리네이밍 등의 기능을 활용할 수 있다.
+
+LSP를 설치하는 과정은 조금 복잡하다. 우선 이맥스에서 LSP와 통신하기 위한 클라이언트를 설치해야한다. =M-x package-install RET lsp-mode RET= 를 입력해 설치하자. 그 다음으로 필요한 것은 파이썬 LSP 서버이다. 터미널을 열고 다음을 입력한다.
+
+#+begin_example
+  pip install 'python-language-server[all]'
+#+end_example
+
+이제 클라이언트와 서버를 연결해주면 된다.
+
+#+begin_src emacs-lisp
+  (require 'lsp-mode)
+  (require 'lsl-clients)
+  (setq lsp-prefer-flymake nil)
+  (add-hook 'prog-mode-hook 'lsp-deferred)
+#+end_src
+
+모드에 hook을 달아놓으면 그 모드가 활성화 될 때 hook에 걸린 함수도 한꺼번에 실행된다. prog-mode-hook은 프로그래밍 관련된 모든 매이저 모드가 실행될 때 발동되는 hook이다. 즉 위 코드는 파이썬 모드를 활성화 하면 LSP를 작동시키는 것과 같다.
+
+lsp-mode에서는 기본 키맵을 지원한다. 다른 패키지들도 키뱁을 지원하는 경우가 일반적이다. 다만 lsp는 그 키맵이 조금 불편하다. 무려 =S-l= 에서 파생되여, 윈도우든 리눅스든 시스템 단축키와 쉽게 겹쳐버린다. 따라서 우리는 이 키맵을 살짝 수정할 것이다. 마침 =S-l= 을 이후의 키맵은 조합키를 쓰지 않으니 키맵을 그대로 들고 다른 단축키에 집어넣자. 간단하게 패키지 내에 있는 키맵을 찾아서 기존과 같이 할당해주면 된다. 이 상황에서는 다음과 같다.
+
+#+begin_src emacs-lisp :tangle yes
+  (evil-leader/set-key
+    "l" 'lsp-command-map)
+#+end_src
+
+위 코드를 eval하면 이제 prefix로 =S-l= 대신 =SPC l= 를 입력할 수 있다. 이렇게 키맵을 하나씩 지정하는 것 말고도 기존 키맵을 다른 단축키에 박아버리는 방법도 존재한다.
+
+LSP를 켜는 단축키는 =<prefix> s s= , 함수를 정의를 찾으려면 =<prefix> g g= 를 입력하면 된다. 자세한 키맵은 [여길](https://emacs-lsp.github.io/lsp-mode/page/keybindings/) 참고하면 된다.
+
+*** company
+[company](https://github.com/company-mode/company-mode)는 이맥스에서 가장 유명한 자동완성 패키지이다. company 자체는 백엔드에서 받은 데이터를 현재 입력에 맞춰 보여주기만 하므로, 언어별 데이터를 제공해주는 백엔드(여기서는 LSP)를 설치해야한다. 긴 말이 필요한가. 바로 설치하자.
+
+=M-x package-install RET company RET= 과 =M-x package-install RET company-lsp RET= 으로 필요한 패키지를 설치한다. 그 후
+#+begin_src emacs-lisp
+  (require 'company)
+  (add-hook 'prog-mode-hook 'company-mode)
+  (setq company-backends '((company-dabbrev-code :separate company-capf company-keywords)
+                           company-files
+                           company-keywords
+                           company-capf
+                           company-yasnippet
+                           company-abbrev
+                           company-dabbrev))
+  (define-key company-active-map (kbd "TAB") 'company-complete)
+
+  (require 'company-lsp)
+  (add-to-list 'company-backends 'company-lsp)
+#+end_src
+
+로 company를 실행하고 LSP에서 받은 데이터로 자동완성할 수 있다. =add-to-list= 함수는 리스트 앞에 원소를 추가하는 함수로, 한 번에 리스트를 만들면 에러가 날 때 저렇게 나눠서 리스트를 생성하면 된다. 백엔드 순서를 저렇게 세팅하면 최근 자동완성한 목록이 제일 위에 뜨므로 편하다.
+
+*** flycheck
+[flycheck](https://github.com/flycheck/flycheck)는 린팅 패키지이다. company와 같이 백엔드에서 받은 데이터가 있어야한다. company와 달리 LSP와 연돌할 때에는 별도로 설치할 패키지는 없다. =M-x package-install RET flycheck RET= 로 설치한 후, 다음과 같이 설정한다.
+
+#+begin_src emacs-lisp
+  (require 'flycheck)
+  (add-hook 'prog-mode-hook 'flycheck-mode)
+#+end_src
+
+LSP와 연동하여 오류를 뿜어내는 우리의 코드를 볼 수 있을 것이다. 혹시 위에 =lsp-prefer-flymake= 변수를 눈치챘는가? 저 변수는 또 다른 린터인 flymake를 사용하는지 여부를 결정한다. flymake는 내장패키지지만, 워낙 오래되기도 했고, 이게 더 좋다.
+
+company와 flycheck 백엔드는 LSP만 있는 것이 아니다. LSP에는 없는 언어도 백엔드가 있고, 심지어는 cmake같은 설정파일을 지원하기도 한다.
+
+*** 가상환경 지원
+파이썬은 그놈의 가상환경 때문에 조금 더 설정을 해줘야한다. 기껏 파이썬 개발할 준비를 다 했는데 이맥스 내에서 가상환경 이 돌아가지 않으면 슬플 것이다. 그런 상황을 미연에 방지해주는 고마운 패키지가 바로 [virtualenvwrapper](https://github.com/porterjamesj/virtualenvwrapper.el)이다. 그리고 이와 연동해 가상환경을 자동으로 활성화해주는 패키지로 [auto-virtualenvwrapper](https://github.com/robert-zaremba/auto-virtualenvwrapper.el)가 있다.
+
+=M-x package-install RET virtualenvwrapper RET= 와 =M-x package-install RET auto-virtualenvwrapper= 로 설치한 뒤,
+
+#+begin_src emacs-lisp
+  (require 'viraulenvwrapper)
+  (require 'auto-virtualenvwrapper)
+  (add-hook 'python-mode-hook '(lambda ()
+                                 (unless (eq buffer-file-name nil)
+                                   (setq-local venv-location (directory-file-name buffer-file-name)))))
+  (add-hook 'python-mode-hook 'auto-virtualenvwrapper-activate)
+#+end_src
+
+로 설정하면 파이썬 파일을 열었을 때 알아서 프로젝트 루트에 있는 =venv= 디렉토리를 찾아 가상완경을 활성화한다.
+
+*** 기타 파이썬 프로그래밍에 도움되는 것들
+=C-c C-p= 로 파이썬 쉘을 실행할 수 있다. 그 후 코드를 드래그(혹은 visual state로 선택)한 뒤 =C-c C-r= 을 누르면 지정된 소스코드가 쉘로 전송되어 인터프리터에 로드된다. 이로인해 이맥스에서는 repl이 쉽다.
+
+[pip-requirements](https://github.com/Wilfred/pip-requirements.el) 로 requirements.txt 전용 모드를 설정할 수도 있고, [pytest.el](https://github.com/ionrock/pytest-el)로 pytest를 이맥스 안에서 돌릴 수 있다. [디버거도 지원한다.](https://github.com/realgud/realgud)
+
+*** git tool
+[magit](https://github.com/magit/magit)은 이맥스의 킬러 앱 중 하나이다. 깃을 이맥스에서 사용하게 해줄 수 있는 패키지인데, 매우 강력한 기능성을 갖추고 있다. 키보드 몇 번 누르는 것 만으로 깃의 거의 모든 기능을 쓸 수 있으며, 그 인터페이스 또한 혁신적이다.[fn:2] 다만 깃의 모든 기능을 끌어다 쓰기 때문에 매뉴얼 또한 길다. 따라서 이 가이드에서는 가장 기초적인 add, commit, push 만 다루겠다.
+
+우리는 evil을 쓰기 때문에 magit의 키맵을 evil사양으로 바꿔주는 evil-magit도 같이 깔 것이다. =M-x package-install RET magit RET= 와 =M-x package-install RET evil-magit RET=으로 설치한다.
+
+그 후
+#+begin_src emacs-lisp
+  (require 'magit)
+  (evil-leader/set-key
+    "m" 'magit-status)
+
+  (require 'evil-magit)
+  (evil-magit-init)
+#+end_src
+을 입력하면 설정이 끝난다. magit-status의 기본 키맵은 =C-x g= 이지만, 위와 같이, 혹은 자기 마음대로 설정해도 된다. magit-status 함수를 실행하면 아래와 같은 화면이 뜰 것이다.
+
+[[/images/magit-status.png]]
+
+스테이지[fn:3]하고 싶은 파일에 커서를 올리거나 visual-state로 긁은 뒤 =s= 를 누르면 스테이징 된다. 전체를 스테이지 하고 싶으면 =S= 를 누르면 된다.
+
+[[/images/magit-stage.png]]
+
+그 후 =c= 를 누르면 커밋 설정이 뜬다.
+
+[[/images/magit-commit-menu.png]]
+
+여기서는 그냥 커밋을 할 것이니 =c= 를 누른다. 그러면 커밋메세지를 입력하는 창과 diff창이 뜬다.
+
+[[/images/magit-commit-confirmation.png]]
+
+커밋 메세지를 입력하고 =C-c C-c= 를 누르면 커밋이 완료된다. 이제 푸시를 해보자. 푸시를 하려면 =p= 를 누른다.
+
+[[/images/magit-push-menu.png]]
+
+이때 upstream을 지정하지 않았다면 지정해달라 할 것이고, 아니라면 =p= 를 다시 눌러서 푸쉬하면 된다. ssh 토큰을 발행해놨다면 바로 푸쉬될 것이고, 아니라면 아이디와 비밀번호를 입력하면 된다.
+
+이외에도 머지, 리베이스, 브랜치 관리 등을 전부 magit 내에서 할 수 있고, 하위 패키지로써 깃헙과 연동하거나 TODO를 status에 띄워주는 패키지도 있다.
+
+
+이 정도면 코딩하는 데에 크게 불편한 점은 없을 것이다. 불편하다해도 자신이 원하는 기능을 제공하는 패키지를 깔아서 쓰거나 적당히 리슾코드를 작성하면 된다. 하지만 이맥스에는 훌륭한 패키지들이 아직도 있다! 뉴비들의 입에 가득히 넣어주고 싶을 정도로 많다! 그런 작성자 추천 패키지들은 다음 장에서 소개하도록 하겠다.
+
+
+** DONE 이맥스 개종 가이드 4 - 기타 유틸리티                         :emacs:
+CLOSED: [2020-05-11 Mon 20:47]
+:PROPERTIES:
+:EXPORT_FILE_NAME: emacs-conversion-guide-4
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail "/images/real-programmers-use-emacs.png"
+:END:
+
+작성자 엄선 이맥스 패키지를 마구 깔아서 편의성을 극대화해보자
+
+<!--more-->
+
+이 장은 본인이 엄선한 패키지를 나열한 페이지다. 자신은 추천도 필요없고 스스로 다 비교해보면서 구축하겠다는 사람은 이 장을 건너뛰면 된다. 근데 그러면 이 글을 쓴 의미가... 아악
+
+*** leaf.el
+[leaf.el](https://github.com/conao3/leaf.el)은 패키지 관리를 보다 쉽게 할 수 있도록 도와주는 패키지 이다. 이 패키지를 사용하면 패키지 하나를 설정할 때, 코드들을 하나의 블럭으로 묶을 수 있어 =init.el= 파일이 간략하고 깔끔해진다.
+
+가령 본인의 company 설정
+#+BEGIN_SRC emacs-lisp
+  (require 'company)
+
+  (add-hook 'prog-mode-hook 'company-mode)
+  (add-hook 'org-mode-hook 'company-mode)
+
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 2)
+  (setq company-backends '((company-dabbrev-code :separate company-capf company-keywords)
+                           company-files
+                           company-keywords
+                           company-capf
+                           company-yasnippet
+                           company-abbrev
+                           company-dabbrev))
+
+  (setq company-echo-truncate-lines t)
+  (setq company-tooltip-align-annotations t)
+
+  (define-key company-active-map (kbd "TAB") 'company-complete)
+#+END_SRC
+
+을
+
+#+BEGIN_SRC emacs-lisp
+  (leaf company
+    :ensure t
+    :hook (((prog-mode-hook org-mode-hook) . company-mode))
+    :setq ((company-idle-delay . 0)
+           (company-minimum-prefix-length . 2)
+           (company-backends . '((company-dabbrev-code :separate company-capf company-keywords)
+                                 company-files
+                                 company-keywords
+                                 company-capf
+                                 company-yasnippet
+                                 company-abbrev
+                                 company-dabbrev))
+           (company-echo-truncate-lines . t)
+           (company-tooltip-align-annotations . t))
+    :bind (:company-active-map
+           ("<tab>" . company-complete)))
+#+END_SRC
+
+이런 식으로 깔끔하게 만들 수 있다. leaf의 인자로 패키지를 받을 경우 =require= 로 패키지를 로드하는 것과 같은 효과를 낸다. leaf의 대부분의 키워드는 변수와 변수에 집어넣을 값을 =.= 으로 구분한다. 다음은 leaf를 쓸 때 외워두면 좋은 키워드를 나열한 것이다.
+
+#+begin_example
+  :hook (some-hook . some-function) - (add-hook 'some-hook 'some-function) 과 같음
+  :setq (some-variable . some-value) - (setq some-variable some-value) 와 같음
+  :bind (some-keymap
+         (some-key . some-function)) - (define-key some-keymap some-key 'some-function) 와 같음
+  :init (some-function) - 패키지가 로드 되기 이전에 실행되는 함수
+  :config (some-function) - 패키지가 로드 된 이후 실행되는 함수. 상기 키워드를 제외한 나머지를 넣으면 됨
+  :load-path (some-path) - 패키지 매니저로 설치하지 않은 패키지를 로드할 때 사용. 다음 장에 설명
+#+end_example
+
+패키지 초기화 함수 같은 경우에는 패키지가 로드된 뒤 실행해야 하므로 =:config= 키워드 뒤에 붙이면 된다.
+
+
+*** 괄호 관련 패키지
+우리 모두 괄호에 대해 안 좋은 경험을 갖고 있을 것이다. 페어 안 맞는다고 터지고, 괄호를 일일이 지우고 새로 붙인다고 왔다갔다 거리고, 리슾 프로그래밍을 한 사람은 무수한 괄호의 홍수에 파묻혔던 기억도 있을 것이다.
+[[https://imgs.xkcd.com/comics/lisp_cycles.png]]
+
+다행히, 동서고금을 통틀어 괄호에 대해 학을 뗀 사람들은 에디터에 상관없이 있고, 그들이 만든 좋은 패키지 역시 있다. 이맥스도 마찬가지다.
+
+[smartparens](https://github.com/Fuco1/smartparens)는 괄호 삽입 및 수정을 다루는 패키지이다. 괼호 위치 이동, 괄호 삽입/교체/제거, 이어붙이기, 등등 좋은 기능도 많지만, 가장 중요한 기능은 strict pairing이다. 괄호를 열면 커서 바로 옆에 닫아주고, 괄호를 반드시 짝 맞추기 때문에 백스페이스 연타해도 실수로 괄호를 지울 염려가 없다.
+
+smartparens는 문서에 예제가 잘 되어 있어 여기서 다루지 않겠다. 다만 제대로 써먹기 위해선 약간 설정이 필요해 그것만 언급하겠다.
+
+#+begin_src emacs-lisp :tangle yes
+  (leaf smartparens
+    :init (require 'smartparens-config)
+    :setq ((sp-ignore-modes-list . (delete 'minibuffer-inactive-mode sp-ignore-modes-list))
+           (sp-escape-quotes-after-insert . nil))
+    :config
+    (smartparens-global-strict-mode)
+    (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+    (when (version<= "27" emacs-version)
+      (dolist (parens '(c-electric-paren c-electric-brace c-electric-slash))
+        (add-to-list 'sp--special-self-insert-commands parens))))
+#+end_src
+
+위와 같이 설정해줘야 C에서 괄호가 정상 작동하며 emacs-lisp을 다룰 때 ='= 가 하나만 찍힌다. 리슾계열에서 ='= 는 하나만 쓰므로 위와 같이 설정해줘야 오류를 뿜지 않는다. evil 유저는 [evil-smartparens](https://github.com/expez/evil-smartparens)를 깔아야 evil과 잘 굴러간다.
+
+다음 설명할 패키지는 [evil-surround](https://github.com/emacs-evil/evil-surround)이다. 빔 플러그인이 포팅된 패키지로, 괄호 삽입/교체/삭제 만 따지자면 evil에 더 잘 녹아들어 편하다. 이 패키지 역시 문서에 예제가 잘 되어있어 언급하지 않겠다.
+
+마지막 패키지는 [rainbow-delimiters](https://github.com/Fanael/rainbow-delimiters)이다. 괄호쌍을 색칠해주는 패키지로, 이것만 있으면 괄호의 늪을 해쳐나갈 수 있다.
+
+#+begin_src emacs-lisp
+  (leaf rainbow-delimiters
+    :straight t
+    :hook ((prog-mode-hook org-mode-hook) . rainbow-delimiters-mode))
+#+end_src
+
+로 설치만 해두면 괄호가 알록달록해져 코드 블록이 더 잘 구분된다.
+
+[[/images/parens.png]]
+
+
+*** yasnippet
+[yasnippet](https://github.com/joaotavora/yasnippet)은 이맥스의 템플릿 패키지이다. 다양한 언어를 지원하며, 축약된 단어를 입력하고 TAB을 누르거나 =M-x yas-insert-snippet= 으로 템플릿을 넣을 수 있어 보일러플레이트를 입력하기 편해진다.
+
+*** pdf-tools
+[pdf-tools](https://github.com/politza/pdf-tools)는 이맥스에서 pdf를 렌더링해주는 패키지이다. 기본으로 지원하는 Docview보다 성능이 준수하고 기능성도 더 좋아서 이것을 쓴다. 굳이 다른 걸 냅두고 이맥스 내에서 뷰어를 쓰는 이유는 키맵을 그대로 끌어다 끌 수 있기 때문이다. 이것은 다른 패키지(메일, 뮤직 플레이어 등[fn:4])에도 그대로 적용된다.
+
+pdf-tools는 설치 과정이 하나 더 있다. 평소대로 패키지 설치를 한 뒤, 다음 함수를 실행해야 정상적으로 작동한다.
+#+begin_src emacs-lisp
+  (pdf-tools-install)
+#+end_src
+
+*** which-key
+[which-key](https://github.com/justbur/emacs-which-key) 키 입력 기반 치트시트 패키지이다. 매 번 키맵을 까먹을 때 마다 레퍼런스나 설정 파일을 열 필요 없이 그냥 기억나는 키 시퀀스를 입력하면 그에 해당되는 키맵을 화면 아래에 보여주기 때문에 키맵에 익숙해지는 데에 큰 도움을 준다. 한가지 팁이 있는데, prefix가 없는 키맵을 보고 싶다면 which-key 치트시트를 연 뒤 =C-h u= 를 입력하면 된다.
+
+*** 테마
+의외로 테마도 중요한 요소이다. 하루종일 화면만 들여다 볼텐데 배경이 하얗거나 폰트 컬러링이 엉망이면 눈이 썩어들어갈 것이다. 따라서 적절한 테마를 찾아서 설치해야 눈을 보호하는 지름길로 나아갈 수 있다. 본인은 배경이 검은 테마가 없어 직접 테마를 작성했지만 처음부터 테마를 작성하는 짓은 가혹하므로 둘러봤던 테마 중 하나를 추천한다. 바로 [doom-themes](https://github.com/hlissner/emacs-doom-themes)의 one-dark 테마이다. 구성 자체도 깔끔하고, 많은 패키지의 테마를 지원해 어지간한 패키지에 다 적용된다.
+
+*** evil 하위 패키지
+기본 단축키를 확장해 키보드를 연타할 일을 없애주는 [evil-easymotion](https://github.com/PythonNut/evil-easymotion), 텍스트 교환을 수월하게 만들어주는 [evil-exchange](https://github.com/Dewdrops/evil-exchange), 코드를 쉽게 주석으로 만들고 풀어주는 [evil-nerd-commenter](https://github.com/redguardtoo/evil-nerd-commenter), 동일한 단어들을 한번에 수정하도록 도와주는 [evil-multiedit](https://github.com/hlissner/evil-multiedit) 등이 있다.
+
+
+추천 패키지는 이 정도다. 나머지는 그리 자주 안 쓰거나 굳이 필요없다고 생각했거나 까먹은 것들이다. 다른 패키지는 스스로 찾아보자. 그리고 더 좋은 패키지를 발견하면 널리 공유하자. 다음이자 마지막 장에서 설정할 때 유용한 팁으로 가이드를 마치겠다.
+
+
+** DONE 이맥스 개종 가이드 5 - 혼자서 설정할 때 도움되는 정보        :emacs:
+CLOSED: [2020-05-11 Mon 22:33]
+:PROPERTIES:
+:EXPORT_FILE_NAME: emacs-conversion-guide-5
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail "/images/real-programmers-use-emacs.png"
+:END:
+
+이맥스 설정을 하면서 걲었던 일을 팁으로 정리했다. 잘 읽고 여러분은 해메지 않도록 하자.
+
+<!--more-->
+
+생각날 때마다 추가
+
+
+*** init.el 이 비대해질 경우
+leaf를 써서 설정을 블록 단위로 깔끔하게 정리해도 패키지를 100개 200개씩 깔다보면 init.el이 비대해지는 것은 당연하다. 이렇게 되면 관리하기 어려워지고, 신경쓰지 않으면 바로 패키지 구분이 난잡해진다. 설정 파일이 leaf 블록으로만 구성되어있다면 하나의 거대한 파일로도 충분하겠지만, 자기만의 함수를 선언하거나 블록에 구애받지 않는 설정을 할 때도 있다. 따라서 우리는 서로 연관된 패키지들을 묶어서 파일 단위로 분할할 것이다.
+
+=init.el= 파일에서 =M-x mkdir RET= 를 치면 디렉토리를 만들 수 있다. 여기선 =config= 디렉토리를 만들자. 그리고 =SPC f= 후 =config/python.el= 로 파이썬 설정파일을 만들자. 이제 이 파이썬 설정파일에 파이썬에 관련된 설정들만 옮긴 뒤, =init.el= 에 기존 파이썬 설정 코드를 지우고 다음 함수를 추가하자.
+
+#+begin_src emacs-lisp
+  (load-file "~/.emacs.d/config/python.el")
+#+end_src
+
+=load-file= 함수는 파일을 읽는 함수이다. 이맥스를 처음 시작할 때 =init.el= 을 일고 인터프리터에 로드한다는 것은 기억하고 있을 것이다. 까먹었어도 방금 말했으니 기억한거다. 이 때 저 =load.file= 함수를 읽으면 재귀적으로 그 파일을 읽고 인터프리터에 로드한다. 즉 =init.el= 에 코드 뭉치가 있는 것과 똑같다! 이런 식으로 evil 설정도 파일화하고 magit 설정도 파일화하고 전부 파일화하면 훨씬 깔끔한 설정 파일을 만들 수 있다.
+
+*** 패키지 매니저에 패키지가 없을 경우
+패키지를 깔려고 인터넷을 떠돌다 보면 패키지 저장소에 패키지가 올라와있지 않는 일이 종종 있다. 보통 신생 패키지라서 아직 올라가지 않았거나, 메인테이너가 자의로 올리지 않는 등의 이유다. 물론 이래도 패키지를 깔 수 있다. 수동이지만.
+
+터미널에서 =git clone= 으로 해당 패키지를 클론한다. 이때 이 패키지들도 한 곳에 모아두면 좋다. 여기선 =~/.emacs.d/git= 이라고 하자. git에 올라와있는 패키지를 =init.el= 에 다음과 같이 설정해주면 바로 로드된다.
+
+#+begin_src emacs-lisp
+  (leaf some-package
+    :load-path "~/.emacs.d/git/some-package/some-package.el")
+#+end_src
+
+이 때 경로는 해당 패키지의 메인 파일의 경로여야 한다. 보통 패키지의 이름과 같으니 그걸 로드해주면 된다.
+
+*** LSP가 느릴 경우
+혹시 자신의 이맥스 버전이 26.3일 경우, 27.1버전을 설치해볼 것을 권한다. 최신버전 이맥스에서는 JSON 라이브러리가 emacs-lisp 대신 C로 작성되어 더 나은 성능을 기대할 수 있다.
+
+*** 이맥스 시작이 느릴 경우 또는 이맥스 사용 중 느려질 경우
+이맥스에는 벤치마킹 패키지도 잘 되어있다. [benchmark-init](https://github.com/dholm/benchmark-init-el)은 이맥스 시작 시 로드 시간을 측정해 띄워주는 패키지이므로, 로드 병목을 확인하고 로드 지연을 거는 등의 조치를 취하면 된다. 물론 최고의 해결책은 켜고 끄지 않는 것이다.
+
+사용 중 느려질 경우에는 내장된 프로파일러를 사용하면 된다. =M-x profiler-start= 후 평소처럼 작업하다가 =M-x profiler-report= 로 병목을 확인하면 된다. 프로파일링을 시작하고 얼마 지나지 않아 리포트를 열 경우 M-x 메뉴를 여는 비용이 높게 잡히므로 주의한다.
+
+*** ='= 의 기준
+함수를 변수로 넘기고 싶을 때 ='= 을 붙인다. 이때 함수는 평가되지 않은 살태로 매개 변수가 된다.
+
+*** 커스텀 키맵이 which-key 에서 =prefix= 로만 보일 때
+#+begin_src emacs-lisp :tangle yes
+  (defalias 'keymap-name your-new-keymap)
+  (evil-leader/set-key
+    "key" 'keymap-name)
+#+end_src
+으로 설정하면 이름이 잘 뜬다.
+
+*** 메뉴와 스크롤 바가 거슬릴 경우
+#+begin_src emacs-lisp :tangle yes
+  (menu-bar-mode 0)
+  (tool-bar-mode 0)
+  (setq-default scroll-bar-mode nil)
+  (toggle-scroll-bar nil)
+#+end_src
+
+
+*** 패키지를 깔고 설정하는데 오류가 나는 경우
+깃헙 이슈나 레딧에서 검색하면 먼저 해당 오류를 경험한 사람들이 제시한 해결책들이 있다.
+
+*** 국내 최대 이맥스 커뮤니티
+[어둠의 개발자 비밀 결사](https://discord.gg/r2veYsk)
+
+* Footnotes
+[fn:1] evil 에서는 빔의 모드를 state 라고 한다. 이맥스에는 모드가 따로 있다. 다음 편에 작성
+[fn:2] [너무나 좋은 나머지 별도의 패키지로도 나와있다.](https://github.com/magit/transient)
+[fn:3] add == stage
+[fn:4] 웹브라우징 제외. css를 지원하지 않는다...
