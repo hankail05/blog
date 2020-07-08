@@ -25,7 +25,7 @@ dateformat = "2006-01-02"
 mathjax = true
 mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/sre/sre_browser.min.js"
 mathjaxConfig = "TeX-AMS-MML_HTMLorMML"
-highlightColor = "#cfd8fb"
+highlightColor = "#7690f3"
 
 [Params.sidebar]
 home = "right"
