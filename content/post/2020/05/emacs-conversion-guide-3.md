@@ -1,6 +1,7 @@
 +++
 title = "이맥스 개종 가이드 3 - 개발 환경 구축"
 date = 2020-05-10T21:42:00
+lastmod = 2020-07-07T11:09:22
 tags = ["emacs"]
 draft = false
 thumbnail = "/images/real-programmers-use-emacs.png"
@@ -38,7 +39,7 @@ pip install 'python-language-server[all]'
 
 ```emacs-lisp
 (require 'lsp-mode)
-(require 'lsl-clients)
+(require 'lsp-clients)
 (setq lsp-prefer-flymake nil)
 (add-hook 'prog-mode-hook 'lsp-deferred)
 ```
@@ -73,7 +74,7 @@ LSP를 켜는 단축키는 `<prefix> s s` , 함수를 정의를 찾으려면 `<p
                          company-yasnippet
                          company-abbrev
                          company-dabbrev))
-(define-key 'company-active-map (kbd "TAB") 'company-complete)
+(define-key company-active-map (kbd "TAB") 'company-complete)
 
 (require 'company-lsp)
 (add-to-list 'company-backends 'company-lsp)
