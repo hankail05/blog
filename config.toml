@@ -1,9 +1,9 @@
-baseURL = "https://hankail05.github.io"
+baseURL = "https://phrimm136.github.io"
 languageCode = "kr-ko"
 title = "가지 않은 길"
 theme = "Mainroad"
 paginate = 10
-disqusShortname = "hankail05-github-io"
+disqusShortname = "phrimm136-github-io"
 googleAnalytics = "UA-164655053-1"
 canonifyURLs = true
 
@@ -11,7 +11,7 @@ canonifyURLs = true
 subtitle = "진귀한 글을 적기 위해 노력함"
 description = "진귀한 글을 적기 위해 노력함"
 images = ["images/main.png"]
-copyright = "hankail05"
+copyright = "phrimm136"
 comments = true
 opengraph = true
 twitter_cards = false
@@ -43,10 +43,10 @@ tags_counter = true
 #instagram = "username"
 #linkedin = "username"
 #telegram = "username"
-#github = "hankail05"
+#github = "phrimm136"
 #gitlab = "username"
 #bitbucket = "username"
-#email = "hankail0582@gmail.com"
+#email = "phrimm136@gmail.com"
 
 [outputs]
 home = ["HTML", "RSS"]
